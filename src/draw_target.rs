@@ -11,10 +11,12 @@ use std::time::Instant;
 use crate::style::WIDTH;
 #[cfg(feature = "unicode-width")]
 use console::AnsiCodeIterator;
-use console::{is_dumb, Term, TermTarget};
+// use console::{is_dumb, Term, TermTarget};
+use console::{Term, TermTarget};
 #[cfg(all(target_arch = "wasm32", feature = "wasmbind"))]
 use web_time::Instant;
 
+use crate::is_dumb;
 use crate::multi::{MultiProgressAlignment, MultiState, MultiStateIndex};
 use crate::TermLike;
 

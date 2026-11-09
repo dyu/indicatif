@@ -331,6 +331,26 @@ pub use crate::state::{ProgressFinish, ProgressState};
 pub use crate::style::{ProgressStyle, Width};
 pub use crate::term_like::TermLike;
 
+/// A fast way to check if the application has a dumb terminal.
+///
+/// On Unix: `TERM` environment variable is not set or set to `dumb`.
+///
+/// On Windows: `TERM` environment variable is explicitly set to `dumb`.
+/// Native windows terminals typically do not set the `TERM` environment variable.
+#[inline]
+pub fn is_dumb() -> bool {
+    #[cfg(windows)]
+    let default = false;
+
+    #[cfg(not(windows))]
+    let default = true;
+
+    match std::env::var("TERM") {
+        Ok(term) => term == "dumb",
+        Err(_) => default,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
